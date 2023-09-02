@@ -28,6 +28,6 @@ If you are developing a production application, we recommend updating the config
 
 ## MEMO
 
-[Viteで作成したReact（TypeScript）プロジェクトにEsLintとPrettierを導入する（2022/02）](https://zenn.dev/longbridge/articles/ae3aa36cf17d73)
-[vercel](https://vercel.com/kuimac/firebase-react-sample-app)
-[リモートリポジトリ](https://github.com/kuimac/firebase_react_sample_app)
+- [Viteで作成したReact（TypeScript）プロジェクトにEsLintとPrettierを導入する（2022/02）](https://zenn.dev/longbridge/articles/ae3aa36cf17d73)
+- [vercel](https://vercel.com/kuimac/firebase-react-sample-app)
+- [リモートリポジトリ](https://github.com/kuimac/firebase_react_sample_app)

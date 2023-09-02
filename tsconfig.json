@@ -10,9 +10,10 @@
     "moduleResolution": "node",
     // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "isolatedModules": true,
     "noEmit": true,
+    "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
 
     /* Linting */

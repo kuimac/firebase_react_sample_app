@@ -21,7 +21,7 @@ const TodoList: React.FC = () => {
           id: doc.id,
           text: doc.data().text,
           timestamp: doc.data().timestamp,
-        }))
+        })),
       );
     });
 

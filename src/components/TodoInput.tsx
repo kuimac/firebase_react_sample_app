@@ -5,7 +5,6 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 const TodoInput: React.FC = () => {
   const [inputText, setInputText] = useState("");
 
-  // TODO追加
   const onSubmitAdd = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (inputText === "") return;

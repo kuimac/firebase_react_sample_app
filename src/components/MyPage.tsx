@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import type { User } from "@firebase/auth";
 /* 「onAuthStateChanged」と「auth」をimport↓ */
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../Firebase.js";
+import { auth } from "../Firebase";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 
 const MyPage = () => {

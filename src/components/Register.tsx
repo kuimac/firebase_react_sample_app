@@ -5,7 +5,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 import { auth } from "../Firebase";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 // export type GlobalAuthState = {
 //   user: User | null | undefined;
@@ -27,7 +27,7 @@ const Register = () => {
       await createUserWithEmailAndPassword(
         auth,
         registerEmail,
-        registerPassword,
+        registerPassword
       );
     } catch (error) {
       alert("正しく入力してください");
@@ -70,6 +70,9 @@ const Register = () => {
               />
             </div>
             <button>登録する</button>
+            <p>
+              ログインは<Link to={`/login/`}>こちら</Link>
+            </p>
           </form>
         </>
       )}

@@ -27,7 +27,7 @@ const Register = () => {
       await createUserWithEmailAndPassword(
         auth,
         registerEmail,
-        registerPassword
+        registerPassword,
       );
     } catch (error) {
       alert("正しく入力してください");

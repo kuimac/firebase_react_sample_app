@@ -1,14 +1,21 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import TodoList from "./components/TodoList";
-import TodoInput from "./components/TodoInput";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import MyPage from "./components/MyPage";
 
-function App() {
+const App = () => {
   return (
-    <>
-      <TodoInput />
-      <TodoList />
-    </>
+    <div className="container">
+      <BrowserRouter>
+        <Routes>
+          <Route path={`/register/`} element={<Register />} />
+          <Route path={`/login/`} element={<Login />} />
+          <Route path={`/`} element={<MyPage />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;

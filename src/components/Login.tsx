@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { User } from "@firebase/auth";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Firebase";
+import { auth } from "../FirebaseConfig";
 import { Navigate, Link } from "react-router-dom";
 
 const Login = () => {

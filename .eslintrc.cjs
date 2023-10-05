@@ -9,6 +9,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "prettier",
+    "prettier/@typescript-eslint",
   ],
   overrides: [
     {
@@ -28,15 +29,5 @@ module.exports = {
   },
   project: "./tsconfig.json",
   plugins: ["@typescript-eslint", "react"],
-  rules: {
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      {
-        vars: "all",
-        args: "after-used",
-        ignoreRestSiblings: false,
-      },
-    ],
-  },
+  rules: {},
 };

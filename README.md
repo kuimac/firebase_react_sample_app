@@ -32,3 +32,6 @@ If you are developing a production application, we recommend updating the config
 - [vercel](https://vercel.com/kuimac/firebase-react-sample-app)
 - [vercel preview](https://firebase-react-sample-app.vercel.app/)
 - [リモートリポジトリ](https://github.com/kuimac/firebase_react_sample_app)
+
+- 認証機能
+  - [ReactとFirebaseで認証機能を実装する方法【作りながら解説】](https://ralacode.com/blog/post/react-firebase-authentication/)

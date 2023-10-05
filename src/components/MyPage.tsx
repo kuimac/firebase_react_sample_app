@@ -8,13 +8,19 @@ import { useNavigate, Navigate, Link } from "react-router-dom";
 
 const MyPage = () => {
   const [user, setUser] = useState<User>();
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
+  /**
+   * Firebaseでログインしているかを判断する
+   * ログインしている場合はuser情報をstateに格納する
+   */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) return;
       setUser(currentUser);
-      setLoading(false);
+      setIsLogin(true);
+      setIsLoading(false);
     });
   }, []);
 
@@ -26,10 +32,32 @@ const MyPage = () => {
 
   return (
     <>
-      {/* ↓「loading」がfalseのときにマイページを表示する設定 */}
-      {!loading ? (
+      {isLoading ? (
         <>
-          {!user ? (
+          <p>
+            新規登録は<Link to={`/register/`}>こちら</Link>
+          </p>
+          <p>
+            ログインは<Link to={`/login/`}>こちら</Link>
+          </p>
+        </>
+      ) : (
+        <>
+          {!isLogin ? (
+            <Navigate to={`/login/`} />
+          ) : (
+            <>
+              <h1>マイページ</h1>
+              <p>{user?.email}</p>
+              <button onClick={logout}>ログアウト</button>
+            </>
+          )}
+        </>
+      )}
+
+      {!isLoading ? (
+        <>
+          {!isLogin ? (
             <Navigate to={`/login/`} />
           ) : (
             <>

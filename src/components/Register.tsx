@@ -7,19 +7,11 @@ import {
 import { auth } from "../FirebaseConfig";
 import { Navigate, Link } from "react-router-dom";
 
-// export type GlobalAuthState = {
-//   user: User | null | undefined;
-// };
-
-// const initialState: GlobalAuthState = {
-//   user: undefined,
-// };
-
 const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
-  const [user, setUser] = useState<User>();
-  /* ↓関数「handleSubmit」を定義 */
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -27,25 +19,26 @@ const Register = () => {
       await createUserWithEmailAndPassword(
         auth,
         registerEmail,
-        registerPassword,
+        registerPassword
       );
     } catch (error) {
       alert("正しく入力してください");
     }
   };
 
-  /* ↓ログインしているかどうかを判定する */
+  /**
+   * Firebaseでログインしているかを判断する
+   */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) return;
-      setUser(currentUser);
+      setIsLogin(true);
     });
   }, []);
 
   return (
     <>
-      {/* ↓ログインしていればマイページを表示 */}
-      {user ? (
+      {isLogin ? (
         <Navigate to={`/`} />
       ) : (
         <>

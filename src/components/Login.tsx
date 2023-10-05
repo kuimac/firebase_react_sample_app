@@ -1,32 +1,32 @@
-import { useState, useEffect } from "react";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../FirebaseConfig";
-import { Navigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { auth } from "../FirebaseConfig"
+import { Navigate, Link } from "react-router-dom"
 
 const Login = () => {
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassword, setLoginPassword] = useState("");
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [loginEmail, setLoginEmail] = useState("")
+  const [loginPassword, setLoginPassword] = useState("")
+  const [isLogin, setIsLogin] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
+      await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
     } catch (error) {
-      alert("メールアドレスまたはパスワードが間違っています");
+      alert("メールアドレスまたはパスワードが間違っています")
     }
-  };
+  }
 
   /**
    * Firebaseでログインしているかを判断する
    */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) return;
-      setIsLogin(true);
-    });
-  }, []);
+      if (!currentUser) return
+      setIsLogin(true)
+    })
+  }, [])
 
   return (
     <>
@@ -38,12 +38,7 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <div>
               <label>メールアドレス</label>
-              <input
-                name="email"
-                type="email"
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-              />
+              <input name="email" type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)} />
             </div>
             <div>
               <label>パスワード</label>
@@ -62,7 +57,7 @@ const Login = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

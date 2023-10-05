@@ -1,15 +1,15 @@
 /* 「useState」と「useEffect」をimport↓ */
-import { useState, useEffect } from "react";
-import type { User } from "@firebase/auth";
+import { useState, useEffect } from "react"
+import type { User } from "@firebase/auth"
 /* 「onAuthStateChanged」と「auth」をimport↓ */
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth } from "../FirebaseConfig";
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { auth } from "../FirebaseConfig"
+import { useNavigate, Navigate, Link } from "react-router-dom"
 
 const MyPage = () => {
-  const [user, setUser] = useState<User>();
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [user, setUser] = useState<User>()
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLogin, setIsLogin] = useState<boolean>(false)
 
   /**
    * Firebaseでログインしているかを判断する
@@ -17,18 +17,18 @@ const MyPage = () => {
    */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) return;
-      setUser(currentUser);
-      setIsLogin(true);
-      setIsLoading(false);
-    });
-  }, []);
+      if (!currentUser) return
+      setUser(currentUser)
+      setIsLogin(true)
+      setIsLoading(false)
+    })
+  }, [])
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const logout = async () => {
-    await signOut(auth);
-    navigate("/login/");
-  };
+    await signOut(auth)
+    navigate("/login/")
+  }
 
   return (
     <>
@@ -78,7 +78,7 @@ const MyPage = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default MyPage;
+export default MyPage

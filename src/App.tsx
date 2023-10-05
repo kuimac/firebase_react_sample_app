@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import MyPage from "./components/MyPage";
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import "./App.css"
+import Register from "./components/Register"
+import Login from "./components/Login"
+import MyPage from "./components/MyPage"
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
         </Routes>
       </BrowserRouter>
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

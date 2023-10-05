@@ -47,11 +47,6 @@
   padding: 0;
 }
 
-/* body {
-  font-family: sans-serif;
-  background-color: #f7f7f7;
-} */
-
 .container {
   display: grid;
   row-gap: 30px;

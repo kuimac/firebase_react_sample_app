@@ -1,40 +1,32 @@
-import { useState, useEffect } from "react";
-import type { User } from "@firebase/auth";
-import {
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { auth } from "../FirebaseConfig";
-import { Navigate, Link } from "react-router-dom";
+import { useState, useEffect } from "react"
+import { Navigate, Link } from "react-router-dom"
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
+import { auth } from "../FirebaseConfig"
 
 const Register = () => {
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerPassword, setRegisterPassword] = useState("");
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [registerEmail, setRegisterEmail] = useState("")
+  const [registerPassword, setRegisterPassword] = useState("")
+  const [isLogin, setIsLogin] = useState<boolean>(false)
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        registerEmail,
-        registerPassword,
-      );
+      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
     } catch (error) {
-      alert("正しく入力してください");
+      alert("正しく入力してください")
     }
-  };
+  }
 
   /**
    * Firebaseでログインしているかを判断する
    */
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
-      if (!currentUser) return;
-      setIsLogin(true);
-    });
-  }, []);
+      if (!currentUser) return
+      setIsLogin(true)
+    })
+  }, [])
 
   return (
     <>
@@ -70,7 +62,7 @@ const Register = () => {
         </>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

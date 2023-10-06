@@ -1,10 +1,9 @@
-/* 「useState」と「useEffect」をimport↓ */
-import { useState, useEffect } from "react"
-import type { User } from "@firebase/auth"
-/* 「onAuthStateChanged」と「auth」をimport↓ */
-import { onAuthStateChanged, signOut } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import { useState, useEffect, useLayoutEffect } from "react"
 import { useNavigate, Navigate, Link } from "react-router-dom"
+import type { User } from "@firebase/auth"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import { fireAuth, firebaseApps } from "../FirebaseConfig"
+import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore"
 
 const MyPage = () => {
   const [user, setUser] = useState<User>()
@@ -16,7 +15,7 @@ const MyPage = () => {
    * ログインしている場合はuser情報をstateに格納する
    */
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    onAuthStateChanged(fireAuth, (currentUser) => {
       if (!currentUser) return
       setUser(currentUser)
       setIsLogin(true)
@@ -24,37 +23,29 @@ const MyPage = () => {
     })
   }, [])
 
+  /**
+   *  Firestore にユーザー用のドキュメントが作られていなければ作成する
+   */
+  useLayoutEffect(() => {
+    fireAuth.onAuthStateChanged(async (currentUser) => {
+      if (!currentUser) return
+      const usersDocRef = collection(firebaseApps.db, "users")
+      await setDoc(doc(usersDocRef, currentUser.uid), {
+        // name: currentUser.uid,
+        display_name: "",
+        created_at: serverTimestamp()
+      })
+    })
+  }, [])
+
   const navigate = useNavigate()
   const logout = async () => {
-    await signOut(auth)
+    await signOut(fireAuth)
     navigate("/login/")
   }
 
   return (
     <>
-      {isLoading ? (
-        <>
-          <p>
-            新規登録は<Link to={`/register/`}>こちら</Link>
-          </p>
-          <p>
-            ログインは<Link to={`/login/`}>こちら</Link>
-          </p>
-        </>
-      ) : (
-        <>
-          {!isLogin ? (
-            <Navigate to={`/login/`} />
-          ) : (
-            <>
-              <h1>マイページ</h1>
-              <p>{user?.email}</p>
-              <button onClick={logout}>ログアウト</button>
-            </>
-          )}
-        </>
-      )}
-
       {!isLoading ? (
         <>
           {!isLogin ? (

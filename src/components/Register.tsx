@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Navigate, Link } from "react-router-dom"
 import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import { fireAuth } from "../FirebaseConfig"
 
 const Register = () => {
   const [registerEmail, setRegisterEmail] = useState("")
@@ -12,8 +12,9 @@ const Register = () => {
     e.preventDefault()
 
     try {
-      await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
+      await createUserWithEmailAndPassword(fireAuth, registerEmail, registerPassword)
     } catch (error) {
+      fireAuth
       alert("正しく入力してください")
     }
   }
@@ -22,7 +23,7 @@ const Register = () => {
    * Firebaseでログインしているかを判断する
    */
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    onAuthStateChanged(fireAuth, (currentUser) => {
       if (!currentUser) return
       setIsLogin(true)
     })

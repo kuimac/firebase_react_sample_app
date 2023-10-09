@@ -1,69 +1,87 @@
-/* 「useState」と「useEffect」をimport↓ */
-import { useState, useEffect } from "react"
-import type { User } from "@firebase/auth"
-/* 「onAuthStateChanged」と「auth」をimport↓ */
-import { onAuthStateChanged, signOut } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import { useState, useEffect, useLayoutEffect } from "react"
 import { useNavigate, Navigate, Link } from "react-router-dom"
+import { onAuthStateChanged, signOut } from "firebase/auth"
+import type { User } from "@firebase/auth"
+import { collection, doc, setDoc, serverTimestamp, getDoc, DocumentData } from "firebase/firestore"
+import { fireAuth, firebaseApps } from "../FirebaseConfig"
+
+export type userType = {
+  display_name: string
+  created_at: Date
+}
 
 const MyPage = () => {
-  const [user, setUser] = useState<User>()
+  const [authUserData, setAuthUserData] = useState<User>()
+  const [userData, setUserData] = useState<DocumentData>()
   const [isLoading, setIsLoading] = useState(true)
   const [isLogin, setIsLogin] = useState<boolean>(false)
 
   /**
    * Firebaseでログインしているかを判断する
-   * ログインしている場合はuser情報をstateに格納する
+   * ログインしている場合はauthUser情報をstateに格納する
    */
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    onAuthStateChanged(fireAuth, (currentUser) => {
       if (!currentUser) return
-      setUser(currentUser)
+      // TODO: currentUser.uid まで格納されていてセキュリティ的によろしくないので使用するものだけ格納する
+      setAuthUserData(currentUser)
       setIsLogin(true)
       setIsLoading(false)
     })
   }, [])
 
+  /**
+   *  Firestore にユーザー用のドキュメントが作られていなければ作成する
+   *  存在する場合はstateにuserデータを入れる
+   */
+  useLayoutEffect(() => {
+    fireAuth.onAuthStateChanged(async (currentUser) => {
+      if (!currentUser) return
+      const usersDocRef = collection(firebaseApps.db, "users")
+      const userDocumentRef = doc(firebaseApps.db, "users", currentUser.uid)
+
+      if (!userDocumentRef) {
+        await setDoc(doc(usersDocRef, currentUser.uid), {
+          // name: currentUser.uid,
+          display_name: "aa",
+          created_at: serverTimestamp()
+        })
+      } else {
+        getDoc(userDocumentRef).then((documentSnapshot) => {
+          if (!documentSnapshot) return
+          setUserData(documentSnapshot.data())
+        })
+      }
+    })
+  }, [])
+
   const navigate = useNavigate()
   const logout = async () => {
-    await signOut(auth)
+    await signOut(fireAuth)
     navigate("/login/")
   }
+  const dateText = `${userData?.created_at.toDate().getFullYear()}年${
+    userData?.created_at.toDate().getMonth() + 1
+  }月${userData?.created_at.toDate().getDate()}日`
 
   return (
     <>
-      {isLoading ? (
-        <>
-          <p>
-            新規登録は<Link to={`/register/`}>こちら</Link>
-          </p>
-          <p>
-            ログインは<Link to={`/login/`}>こちら</Link>
-          </p>
-        </>
-      ) : (
-        <>
-          {!isLogin ? (
-            <Navigate to={`/login/`} />
-          ) : (
-            <>
-              <h1>マイページ</h1>
-              <p>{user?.email}</p>
-              <button onClick={logout}>ログアウト</button>
-            </>
-          )}
-        </>
-      )}
-
+      {/* TODO: 三項演算子のネストが見通しが悪いので改修する */}
       {!isLoading ? (
         <>
           {!isLogin ? (
             <Navigate to={`/login/`} />
           ) : (
             <>
-              <h1>マイページ</h1>
-              <p>{user?.email}</p>
-              <button onClick={logout}>ログアウト</button>
+              <>
+                <h1>マイページ</h1>
+                <p>{authUserData?.email}</p>
+                <button onClick={logout}>ログアウト</button>
+              </>
+              <>
+                <p>{userData?.display_name}</p>
+                <p>{`作成日 ${dateText}`}</p>
+              </>
             </>
           )}
         </>

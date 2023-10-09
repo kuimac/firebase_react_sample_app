@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth"
-import { auth } from "../FirebaseConfig"
+import { fireAuth } from "../FirebaseConfig"
 import { Navigate, Link } from "react-router-dom"
 
 const Login = () => {
@@ -12,7 +12,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      await signInWithEmailAndPassword(auth, loginEmail, loginPassword)
+      await signInWithEmailAndPassword(fireAuth, loginEmail, loginPassword)
     } catch (error) {
       alert("メールアドレスまたはパスワードが間違っています")
     }
@@ -22,7 +22,7 @@ const Login = () => {
    * Firebaseでログインしているかを判断する
    */
   useEffect(() => {
-    onAuthStateChanged(auth, (currentUser) => {
+    onAuthStateChanged(fireAuth, (currentUser) => {
       if (!currentUser) return
       setIsLogin(true)
     })

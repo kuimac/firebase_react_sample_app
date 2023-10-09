@@ -1,9 +1,9 @@
 import { useState, useEffect, useLayoutEffect } from "react"
 import { useNavigate, Navigate, Link } from "react-router-dom"
-import type { User } from "@firebase/auth"
 import { onAuthStateChanged, signOut } from "firebase/auth"
-import { fireAuth, firebaseApps } from "../FirebaseConfig"
+import type { User } from "@firebase/auth"
 import { collection, doc, setDoc, serverTimestamp, getDoc, DocumentData } from "firebase/firestore"
+import { fireAuth, firebaseApps } from "../FirebaseConfig"
 
 export type userType = {
   display_name: string
@@ -66,6 +66,7 @@ const MyPage = () => {
 
   return (
     <>
+      {/* TODO: 三項演算子のネストが見通しが悪いので回収する */}
       {!isLoading ? (
         <>
           {!isLogin ? (

@@ -66,7 +66,7 @@ const MyPage = () => {
 
   return (
     <>
-      {/* TODO: 三項演算子のネストが見通しが悪いので回収する */}
+      {/* TODO: 三項演算子のネストが見通しが悪いので改修する */}
       {!isLoading ? (
         <>
           {!isLogin ? (
